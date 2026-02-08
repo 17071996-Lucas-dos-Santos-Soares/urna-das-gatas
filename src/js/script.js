@@ -10,15 +10,18 @@ let etapaAtual = 0;
 let numero = "";
 let votoBranco = false;
 let votoNulo = false;
+
 let votos = [];
+let resultados = {}; // CONTAGEM DE VOTOS
 
 let botao = document.querySelector(".botao");
 let opcoesDeVoto = document.querySelector(".gostosas");
 
 const music = document.querySelector(".audioTecla");
 
+/* MENU */
 function toggleMenu() {
-  if (opcoesDeVoto.style.height == "0px" || opcoesDeVoto.style.height == "") {
+  if (opcoesDeVoto.style.height === "0px" || opcoesDeVoto.style.height === "") {
     opcoesDeVoto.style.height = "270px";
     botao.innerHTML = "▴ Gostosas ▴";
   } else {
@@ -27,18 +30,19 @@ function toggleMenu() {
   }
 }
 
+/* INICIAR ETAPA */
 function iniciarEtapa() {
   let etapa = etapas[etapaAtual];
   let numeroHTML = "";
+
   numero = "";
   votoBranco = false;
+  votoNulo = false;
 
   for (let i = 0; i < etapa.numeros; i++) {
-    if (i === 0) {
-      numeroHTML += '<div class="numero pisca"></div>';
-    } else {
-      numeroHTML += '<div class="numero"></div>';
-    }
+    numeroHTML += i === 0
+      ? '<div class="numero pisca"></div>'
+      : '<div class="numero"></div>';
   }
 
   seuVotoPara.style.display = "none";
@@ -49,67 +53,62 @@ function iniciarEtapa() {
   numeros.innerHTML = numeroHTML;
 }
 
+/* ATUALIZA INTERFACE */
 function atualizarInterface() {
   let etapa = etapas[etapaAtual];
-  let canditato = etapa.candidatos.filter((item) => {
-    if (item.numero === numero) {
-      return true;
-    } else {
-      return false;
-    }
-  });
+  let candidato = etapa.candidatos.find(c => c.numero === numero);
 
-  if (canditato.length > 0) {
-    canditato = canditato[0];
+  if (candidato) {
     seuVotoPara.style.display = "block";
     aviso.style.display = "block";
-    descricao.innerHTML = `Nome: ${canditato.nome}<br/>Partido: ${canditato.partido}<br/>`;
+    descricao.innerHTML = `
+      Nome: ${candidato.nome}<br/>
+      Partido: ${candidato.partido}
+    `;
     cargoCenter.style.paddingRight = "107px";
 
     let fotosHTML = "";
-    for (let i in canditato.fotos) {
-      if (canditato.fotos[i].small) {
-        fotosHTML += `<div class="image small"><img src="src/images/${canditato.fotos[i].url}" alt=""><strong>${canditato.fotos[i].legenda}</strong></div>`;
-      } else {
-        fotosHTML += `<div class="image"><img src="src/images/${canditato.fotos[i].url}" alt=""><strong>${canditato.fotos[i].legenda}</strong></div>`;
-      }
-    }
+    candidato.fotos.forEach(foto => {
+      fotosHTML += `
+        <div class="image ${foto.small ? "small" : ""}">
+          <img src="src/images/${foto.url}">
+          <strong>${foto.legenda}</strong>
+        </div>
+      `;
+    });
 
     lateral.innerHTML = fotosHTML;
   } else {
-    voto_Nulo();
+    votoNulo = true;
+    seuVotoPara.style.display = "block";
+    aviso.style.display = "block";
+    descricao.innerHTML = '<div class="aviso--grande pisca">VOTO NULO</div>';
   }
 }
 
-function voto_Nulo() {
-  votoNulo = true;
-  seuVotoPara.style.display = "block";
-  aviso.style.display = "block";
-  descricao.innerHTML = '<div class="aviso--grande pisca">VOTO NULO</div>';
-}
-
+/* DIGITAÇÃO */
 function clicou(n) {
-  const music = document.querySelector(".audioTecla");
   music.play();
 
-  let campoPiscando = document.querySelector(".numero.pisca");
-  if (campoPiscando !== null) {
-    campoPiscando.innerHTML = n;
-    numero = `${numero}${n}`;
+  let campo = document.querySelector(".numero.pisca");
+  if (campo) {
+    campo.innerHTML = n;
+    numero += n;
 
-    campoPiscando.classList.remove("pisca");
-    if (campoPiscando.nextElementSibling !== null) {
-      campoPiscando.nextElementSibling.classList.add("pisca");
+    campo.classList.remove("pisca");
+    if (campo.nextElementSibling) {
+      campo.nextElementSibling.classList.add("pisca");
     } else {
       atualizarInterface();
     }
   }
 }
 
+/* VOTO EM BRANCO */
 function branco() {
   music.play();
 
-  if (numero == "") {
+  if (numero === "") {
     votoBranco = true;
     seuVotoPara.style.display = "block";
     aviso.style.display = "block";
@@ -118,89 +117,90 @@ function branco() {
       '<div class="aviso--grande pisca">VOTO EM BRANCO</div>';
     lateral.innerHTML = "";
     cargoCenter.style.paddingRight = "";
-  } else {
-    alert("Para votar EM BRANCO, não pode ser digitado nenhum núemro!");
   }
 }
 
+/* CORRIGE */
 function corrige() {
-  iniciarEtapa();
   music.play();
+  iniciarEtapa();
 }
 
+/* CONFIRMA */
 function confirma() {
   let etapa = etapas[etapaAtual];
   let votoConfirmado = false;
 
   music.play();
 
-  if (votoBranco === true) {
+  if (votoBranco) {
     votoConfirmado = true;
-
-    votos.push({
-      etapa: etapas[etapaAtual].titulo,
-      voto: "branco",
-    });
-  } else if (
-    (numero.length === etapa.numeros && votoNulo === true) ||
-    numero == ""
-  ) {
+    votos.push({ etapa: etapa.titulo, voto: "branco" });
+  } else if (votoNulo || numero.length !== etapa.numeros) {
     votoConfirmado = true;
-
-    votos.push({
-      etapa: etapas[etapaAtual].titulo,
-      voto: "nulo",
-    });
+    votos.push({ etapa: etapa.titulo, voto: "nulo" });
   } else {
     votoConfirmado = true;
+    votos.push({ etapa: etapa.titulo, voto: numero });
 
-    votos.push({
-      etapa: etapas[etapaAtual].titulo,
-      voto: numero,
-    });
+    resultados[numero] = (resultados[numero] || 0) + 1;
   }
 
   if (votoConfirmado) {
-    votoNulo = false;
     etapaAtual++;
-    if (etapas[etapaAtual] !== undefined) {
+
+    if (etapas[etapaAtual]) {
       iniciarEtapa();
     } else {
-      document.getElementById("barra").style.display = "block";
-
-      let barra = document.getElementById("barraAnimada");
-      let width = 1;
-
-      aviso.style.display = "none";
-      descricao.innerHTML = "";
-      seuVotoPara.style.display = "none";
-      numeros.innerHTML = "";
-      lateral.innerHTML = "";
-      cargo.innerHTML = "";
-
-      let i = setInterval(cena, 10);
-      function cena() {
-        if (width >= 100) {
-          clearInterval(i);
-          document.getElementById("barra").style.display = "none";
-          document.getElementById("gravando").style.display = "none";
-
-          document.querySelector(".tela").innerHTML =
-            '<div class="aviso--fim pisca">FIM</div>';
-          console.log(votos);
-        } else {
-          width++;
-          barra.style.width = width + "%";
-          document.getElementById("gravando").style.display = "flex";
-        }
-      }
-
-      setTimeout(() => {
-        const music = document.querySelector(".audioFim");
-        music.play();
-      }, 1200);
+      finalizarUrna();
     }
   }
 }
 
+/* FINALIZAÇÃO */
+function finalizarUrna() {
+  document.getElementById("barra").style.display = "block";
+  let barra = document.getElementById("barraAnimada");
+  let width = 1;
+
+  aviso.style.display = "none";
+  descricao.innerHTML = "";
+  seuVotoPara.style.display = "none";
+  numeros.innerHTML = "";
+  lateral.innerHTML = "";
+  cargo.innerHTML = "";
+
+  let i = setInterval(() => {
+    if (width >= 100) {
+      clearInterval(i);
+      document.getElementById("barra").style.display = "none";
+      document.getElementById("gravando").style.display = "none";
+      mostrarResultadoFinal();
+      document.querySelector(".audioFim").play();
+    } else {
+      width++;
+      barra.style.width = width + "%";
+      document.getElementById("gravando").style.display = "flex";
+    }
+  }, 10);
+}
+
+/* RESULTADO FINAL */
+function mostrarResultadoFinal() {
+  let html = `<div class="aviso--grande">Resultado Final</div><br>`;
+
+  etapas.forEach(etapa => {
+    etapa.candidatos.forEach(c => {
+      html += `
+        <div style="margin:10px 0; font-size:18px;">
+          <strong>${c.nome}</strong> — ${resultados[c.numero] || 0} voto(s)
+        </div>
+      `;
+    });
+  });
+
+  document.querySelector(".tela").innerHTML = html;
+}
+
+/* START */
 iniciarEtapa();
