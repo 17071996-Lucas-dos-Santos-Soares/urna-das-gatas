@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/css/style.css">
+    <script src="src/js/etapas.js" defer></script>
+    <script src="src/js/script.js" defer></script>
+    <title>Urna das Gatas</title>
+</head>
+<body>
+    <main>
+        <div class="menu">
+            <div class="botao" onclick="toggleMenu()">▾ Gostosas ▾</div>
+            <div class="gostosas">
+                <div class="gostosas--titulo">Grandes Gatas</div>
+                <div class="gostosas--opcoes">3811 - Angela White</div>
+                <div class="gostosas--opcoes">7722 - Lana Rhoades</div>
+                <div class="gostosas--titulo">Babes</div>
+                <div class="gostosas--opcoes">111 - Riley reid</div>
+                <div class="gostosas--opcoes">934 - Keisha Gray</div>
+                <div class="gostosas--titulo">As tops</div>
+                <div class="gostosas--opcoes">15 - Gia Derza</div>
+                <div class="gostosas--opcoes">99 - Luna Star</div>
+            </div>
+        </div>
+        <div class="urna">
+            <div class="tela">
+                <div class="upper">
+                    <div class="tela--left">
+                        <div class="tela-left-1">
+                            <span>SEU VOTO PARA</span>
+                        </div>
+                        <div class="tela-left-2">
+                            <span>PRESIDENTE</span>
+                        </div>
+                        <div class="tela-left-3">
+                            <span>Número:</span>
+                            <div class="numero pisca"></div>
+                            <div class="numero"></div>
+                        </div>
+                        <div class="tela-left-4">
+                            Nome: Nome do Canditato <br>
+                            Partido: ABC <br>
+                            Vice-Prefeito: Nome do vice-canditato
+                        </div>
+                    </div>
+                    <div class="tela--right">
+                        <div class="image">
+                            <img src="src/images/professor.jpg" alt="">
+                            <strong>Presidente</strong>
+                        </div>
+                        <div class="image small">
+                            <img src="src/images/berlin.jpg" alt="">
+                            Vice-Presidente
+                        </div>
+                    </div>
+                </div>
+                <div class="lower">
+                    Aperte a tecla: <br>
+                    CONFIRMA para CONFIRMAR este voto<br>
+                    CORRIGE para REINICIAR este voto
+                </div>
+                <div id="barra" style="display: none; ">
+                    <div id="barraAnimada"></div>
+                </div>
+                <div id="gravando" style="display: none;">Gravando</div>
+            </div>
+            <div class="teclado">
+                <div class="justicaEleitoral">
+                    <div class="logo"><img src="src/images/JE.png" alt=""></div>
+                    <div class="texto">Aqui vc vota nas mais gatas</div>
+                </div>
+                <div class="teclado--linha">
+                    <div class="teclado--botao" onclick="clicou('1')">1</div>
+                    <div class="teclado--botao" onclick="clicou('2')">2</div>
+                    <div class="teclado--botao" onclick="clicou('3')">3</div>
+                </div>
+                <div class="teclado--linha">
+                    <div class="teclado--botao" onclick="clicou('4')">4</div>
+                    <div class="teclado--botao" onclick="clicou('5')">5</div>
+                    <div class="teclado--botao" onclick="clicou('6')">6</div>
+                </div>
+                <div class="teclado--linha">
+                    <div class="teclado--botao" onclick="clicou('7')">7</div>
+                    <div class="teclado--botao" onclick="clicou('8')">8</div>
+                    <div class="teclado--botao" onclick="clicou('9')">9</div>
+                </div>
+                <div class="teclado--linha">
+                    <div class="teclado--botao" onclick="clicou('0')">0</div>
+                </div>
+                <div class="teclado--linha">
+                    <div class="teclado--botao botao--branco" onclick="branco()">Branco</div>
+                    <div class="teclado--botao botao--corrige" onclick="corrige()">Corrige</div>
+                    <div class="teclado--botao botao--confirma" onclick="confirma()">Confirma</div>
+                    <audio class="audioTecla" src="src/audio/som_tecla_urna.mp3"></audio>
+                    <audio class="audioFim" src="src/audio/votoConfirmado_urna.mp3"></audio>
+                </div>
+                <div class="votacao" src="/urna/votacao"></div>
+            </div>
+        </div>
+    </main>
+    <footer>
+       <p>zoando com Ti</p>
+    </footer>
+</body>
+
+</html>
