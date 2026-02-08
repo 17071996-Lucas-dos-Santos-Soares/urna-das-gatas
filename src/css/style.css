@@ -185,7 +185,7 @@ main {
 
 .tela-left-1,
 .tela-left-2,
-.tela-left-3 {
+.tela-left-3{
   width: 100%;
   display: flex;
   align-items: center;
@@ -193,9 +193,13 @@ main {
 }
 
 .tela-left-2 {
-  justify-content: center;
+  justify-content: start;
 }
-
+.tela-left-2 span{
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  text-align: left;
+}
 .numero {
   display: inline-block;
   width: 30px;
@@ -259,9 +263,10 @@ main {
 
 .aviso--grande {
   text-align: center;
-  margin-top: 25px;
+  margin-top: -20px;
   font-size: 2rem;
   font-weight: bold;
+  margin-left: 20px;
 }
 
 .aviso--fim {
@@ -337,16 +342,153 @@ footer a:hover::after {
   width: 100%;
 }
 
-@media (max-height: 768px) {
-.tela-left-1,
-.tela-left-2,
-.tela-left-3 {
-  width: 50%;
-  display: flex;
-  align-items: center;
-  height: 50px;
+@media (max-width: 1024px) {
+  body {
+    align-items: flex-start;
+    padding: 20px;
+  }
+
+  main {
+    margin-top: 0;
+  }
+
+  .urna {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tela {
+    width: 100%;
+    max-width: 520px;
+  }
+
+  .teclado {
+    margin-left: 0;
+    margin-top: 20px;
+  }
+
+  .justicaEleitoral {
+    width: 100%;
+  }
 }
-.tela--right{
-  width: 50%;
+
+@media (max-width: 768px) {
+  body {
+    height: auto;
+  }
+
+  .menu {
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .botao,
+  .gostosas {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .urna {
+    padding: 20px;
+    width: 100%;
+  }
+
+  .tela {
+    height: auto;
+    min-height: 300px;
+  }
+
+  .upper {
+    flex-direction: column;
+    position: relative;
+  }
+
+  .tela--right {
+    position: relative;
+    width: 100%;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .image {
+    width: 80%;
+    margin-bottom: 10px;
+  }
+
+  .image.small {
+    width: 60%;
+  }
+
+  .lower {
+    padding-bottom: 20px;
+    font-size: 0.75rem;
+  }
+
+  .teclado {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .teclado--linha {
+    justify-content: space-around;
+  }
+
+  .teclado--botao {
+    width: 55px;
+    height: 45px;
+    font-size: 1.4rem;
+  }
+
+  .botao--confirma {
+    width: 100px;
+    height: 55px;
+    font-size: 1rem;
+  }
+
+  footer {
+    position: relative;
+    margin-top: 20px;
+  }
 }
+
+@media (max-width: 480px) {
+  .tela-left-1 span,
+  .tela-left-2 span {
+    font-size: 0.85rem;
+  }
+
+  .numero {
+    width: 25px;
+    height: 35px;
+    font-size: 1.3rem;
+    line-height: 35px;
+  }
+
+  .aviso--grande {
+    font-size: 1.4rem;
+  }
+
+  .aviso--fim {
+    font-size: 2.5rem;
+  }
+
+  .teclado--botao {
+    width: 50px;
+    height: 42px;
+  }
+}
+.teclado--botao {
+  transition: transform 0.1s ease, filter 0.1s ease;
+}
+
+.teclado--botao:hover {
+  filter: brightness(1.2);
+}
+.botao--branco,
+.botao--corrige,
+.botao--confirma{
+  font-size: 14px;
+}
+.teclado--botao:active {
+  transform: translateY(2px);
 }
