@@ -236,8 +236,7 @@ main {
 }
 
 .image {
-  border: 1px solid #000;
-  background-color: #fff;
+  background-color: transparent;
   text-align: center;
   font-size: 0.8rem;
 }
@@ -249,7 +248,10 @@ main {
 }
 
 .image img {
-  width: 100%;
+  width: 260px;
+  padding-left: 50px;
+  padding-top: 20px;
+  border-radius: 10px;
 }
 
 .lower {
