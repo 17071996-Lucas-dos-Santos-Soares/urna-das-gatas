@@ -265,7 +265,7 @@ main {
 
 .aviso--grande {
   text-align: center;
-  margin-top: -20px;
+  margin-top: -5px;
   font-size: 2rem;
   font-weight: bold;
   margin-left: 20px;
@@ -309,7 +309,9 @@ main {
   line-height: 12px;
   background-color: #333;
 }
-
+strong{
+  margin-left: 20px;
+}
 footer {
   width: 100vw;
   position: fixed;
